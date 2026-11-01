@@ -1,3 +1,33 @@
+## Frontend Homework — Owner Review (Levels 1 & 2)
+
+- Completed Owner Review homework — Levels 1 and 2.
+
+### Implementation
+
+- Implemented the Owner Review page layout based on the provided design.
+- Integrated the frontend with a mock backend.
+- Displayed group reservation participants and their individual pre-orders.
+- Implemented a consolidated view of the group order.
+- Implemented group pre-order confirmation and submission.
+- Handled loading, error, and empty states.
+
+### Responsive Design
+
+- Verified the layout on a 375px mobile viewport.
+
+### Testing
+
+Run the homework tests:
+`npm run test:hw`
+**Test results: 52 tests passed (52 SUCCESS).**
+
+### Project Location
+
+- `frontend/restaurant-frontend-app`
+
+
+
+
 ## Homework: Owner view of group pre-order sessions
 
 Implemented `GET /guest/groups/{groupReservationId}/sessions`.
