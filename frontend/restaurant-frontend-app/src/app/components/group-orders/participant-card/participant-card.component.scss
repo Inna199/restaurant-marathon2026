@@ -1,0 +1,173 @@
+
+@use 'app/shared/styles/abstracts/colors' as color;
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.card {
+  padding: 20px;
+  background: color.$neutral-0;
+  border-radius: 14px;
+  box-sizing: border-box;
+}
+
+.title {
+  margin: 0 0 12px;
+  font-size: 18px;
+  font-weight: 600;
+  color: color.$neutral-900;
+}
+
+.chip {
+  display: inline-block;
+  padding: 5px 10px;
+  margin-bottom: 12px;
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+.submitted {
+  background: color.$green-100;
+  color: color.$green-800;
+}
+
+.pending {
+  background: color.$orange-100;
+  color: color.$orange-600;
+}
+
+.items {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid color.$neutral-100;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.initial {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: color.$green-100;
+  color: color.$neutral-600;
+}
+
+.name,
+.qty,
+.price {
+  margin: 0;
+  font-size: 14px;
+}
+
+.name {
+  color: color.$neutral-900;
+}
+
+.qty {
+  color: color.$neutral-600;
+}
+
+.price {
+  min-width: 65px;
+  text-align: right;
+  font-weight: 500;
+}
+
+.empty {
+  color: color.$neutral-600;
+  font-size: 14px;
+}
+
+.subtotal {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 16px 0 0;
+  padding-top: 14px;
+  border-top: 1px solid color.$neutral-100;
+  font-size: 16px;
+  font-weight: 600;
+  color: color.$neutral-900;
+}
+
+@media (max-width: 375px) {
+  .card {
+    padding: 14px;
+  }
+
+  .item {
+    grid-template-columns: 36px minmax(0, 1fr) auto auto;
+    gap: 6px;
+  }
+
+  .avatar {
+    width: 36px;
+    height: 36px;
+  }
+
+  .name {
+    font-size: 13px;
+    overflow-wrap: anywhere;
+  }
+
+  .qty,
+  .price {
+    font-size: 12px;
+    white-space: nowrap;
+  }
+
+  .price {
+    min-width: 50px;
+  }
+}
+
+:host(.owner-participant) {
+  .card {
+    padding: 4px 0 0;
+  }
+
+  .title,
+  .chip {
+    display: none;
+  }
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+
+  .title {
+    margin: 0;
+  }
+
+  .chip {
+    margin: 0;
+  }
+}
+
+:host(.owner-participant) {
+  .card-header {
+    display: none;
+  }
+}

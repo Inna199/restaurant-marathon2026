@@ -1,11 +1,13 @@
 <article class="card">
-  <h2 class="title">{{ title() }}</h2>
+  <div class="card-header">
+    <h2 class="title">{{ title() }}</h2>
 
-  @if (participant().isSubmitted) {
-    <span class="chip submitted">Submitted</span>
-  } @else {
-    <span class="chip pending">Still choosing</span>
-  }
+    @if (participant().isSubmitted) {
+      <span class="chip submitted">Submitted</span>
+    } @else {
+      <span class="chip pending">Still choosing</span>
+    }
+  </div>
 
   @if (participant().items.length) {
     <ul class="items">

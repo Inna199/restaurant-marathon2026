@@ -7,6 +7,7 @@ import { Participant } from '@app/models/group-orders/participant.model';
   imports: [CurrencyPipe],
   templateUrl: './participant-card.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
+  styleUrl: './participant-card.component.scss',
 })
 export class ParticipantCardComponent {
   readonly participant = input.required<Participant>();

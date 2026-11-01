@@ -1,9 +1,136 @@
 <main class="page">
-  <h1>Group Pre-Order</h1>
+  @if (isLoading()) {
+    <p>Loading group pre-order...</p>
+  } @else if (error()) {
+    <section class="error">
+      <p>Group reservation not found</p>
+      <button type="button" (click)="loadData()">Try again</button>
+    </section>
+  } @else if (invite(); as groupInvite) {
+    <header class="page-header">
+      <div class="title-row">
+        <h1>Group Pre-Order</h1>
 
-  <ul class="participants">
-    @for (person of participants(); track person.id) {
-      <li><app-participant-card [participant]="person" /></li>
+        <span
+          class="status"
+          [class.status--submitted]="status() === 'Submitted'"
+        >
+          {{ status() === 'Submitted' ? 'Sent to Restaurant' : 'Collecting pre-orders' }}
+        </span>
+      </div>
+
+      <div class="booking-info">
+        <span class="booking-item">
+          <img src="assets/svg/location-green.svg" alt="" />
+          {{ groupInvite.LocationAddress }}
+        </span>
+
+        <span class="booking-item">
+          <img src="assets/svg/calendar-green.svg" alt="" />
+          {{ groupInvite.StartTime | date:'MMM d, y':'UTC' }}
+        </span>
+
+        <span class="booking-item">
+          <img src="assets/svg/clock-green.svg" alt="" />
+          {{ groupInvite.StartTime | date:'h:mm a':'UTC' }}
+          -
+          {{ groupInvite.EndTime | date:'h:mm a':'UTC' }}
+        </span>
+
+        <span class="booking-item">
+          <img src="assets/svg/people-green.svg" alt="" />
+          {{ participants().length }} of {{ groupInvite.MaxGuestCount }} guests
+        </span>
+      </div>
+      
+    </header>
+
+    @if (pendingParticipants().length > 0) {
+      <p class="warning">
+        {{ pendingParticipants().length }}
+        {{ pendingParticipants().length === 1 ? 'participant hasn’t' : 'participants haven’t' }}
+        submitted their cart yet — their dishes won't be included in the order
+      </p>
     }
-  </ul>
+
+    <ul class="participants">
+      @for (person of participants(); track person.id) {
+        <li>
+          @if (person.id === guestSessionId()) {
+            <div class="owner-card">
+              <h2>My Pre-Order</h2>
+              <app-participant-card
+                class="owner-participant"
+                [participant]="person"
+              />
+            </div>
+          } @else {
+            <app-participant-card [participant]="person" />
+          }
+        </li>
+      }
+    </ul>
+
+    @if (!participants().some(person => person.items.length > 0)) {
+      <p>Participants haven't added any dishes yet</p>
+    }
+
+    <section class="consolidated-order">
+      <h2>Consolidated Pre-Order</h2>
+
+      @for (item of consolidatedOrder().items; track item.dish.id) {
+        <div class="consolidated-item">
+          <span>{{ item.dish.name }} × {{ item.quantity }}</span>
+          <span>{{ item.dish.price * item.quantity | currency:'USD' }}</span>
+        </div>
+      }
+    </section>
+
+    <section class="grand-total">
+      <h2>Grand Total</h2>
+      <p>{{ total() | currency:'USD' }}</p>
+    </section>
+
+    
+    @if (isModalOpen()) {
+      <app-modal
+        title="Submit Pre-Order"
+        (closed)="closeSubmitModal()"
+      >
+        <p>Are you sure you want to submit this pre-order to the restaurant?</p>
+
+        <div modal-actions class="submit-modal-actions">
+          <button
+            type="button"
+            class="button button--large button--secondary"
+            (click)="closeSubmitModal()"
+          >
+            Cancel
+          </button>
+
+          <button
+            type="button"
+            class="button button--large button--primary"
+            (click)="submitPreOrder()"
+            [disabled]="isSubmitting()"
+          >
+            Submit
+          </button>
+        </div>
+      </app-modal>
+    }
+
+    @if (!isReadOnly() && status() !== 'Submitted') {
+      <div class="submit-button-wrapper">
+        <button
+          type="button"
+          class="button button--large button--primary"
+          [disabled]="!hasSubmittedDishes() || isSubmitting()"
+          (click)="openSubmitModal()"
+        >
+          Submit Pre-Order
+        </button>
+      </div>
+    }
+  }
 </main>
